@@ -28,32 +28,27 @@ const createBody = ()=>{
         newbtn.innerText = index;
         newbtn.classList.add("icons")
         calcBody.appendChild(newbtn)
-        newbtn.addEventListener("click", addNum)
+        newbtn.addEventListener("click", firstVal)
     })
 }
 
 
 let a = "";
 let b = ""; 
-const addNum= (e)=>{
-    let firstVal = ()=>{
-        a += e.target.getAttribute("data-id");
-        calcHead.innerText = Number(a);
-        return Number(a);
+
+
+let secondVal = (a)=>{
+    let clear = ()=>{
+        calcHead.innerText= "";
     }
-    firstVal();
-    let SecondVal = ()=>{
-        b += e.target.getAttribute("data-id")
-        calcHead.innerText = Number(b)
-    }
-    plus.addEventListener("click",()=>{
-         calcHead.innerText = "";
-         SecondVal();
-    })
-    
+   plus.addEventListener("click", clear )
+   console.log(calcHead.innerText)
 }
 
-const funcs = ()=>{
-}
+let firstVal = (e)=>{
+        a += e.target.getAttribute("data-id");
+        calcHead.innerText = Number(a);
+       secondVal(a)
+ }
+
 createBody();
-funcs();
