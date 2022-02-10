@@ -5,120 +5,100 @@ let plus = document.querySelector("#add")
 let equals = document.querySelector(".equals")
 let clear = document.querySelector(".clear")
 let numbers = document.querySelector(".otherBody")
-
-
+let divide = document.querySelector("#divide")
+let multiply = document.querySelector("#multiply")
 
 class Calculator {
-    constructor(a, b){
-        this.a = a;
-        this.b = b;
+    constructor(){
+        this.a = "";
+        this.b = "";
+        this.counter=0;
+        this.total=0;
+    }
+    loop=()=>{
+      for (let i =0; i < numbers.children.length; i++){
+        numbers.children[i].setAttribute("data-id", i)
+         numbers.children[i].addEventListener("click", this.showVal);
+          }
+          this.add();
+          this.divide();
+          this.multiply();
+          this.clear();
+    }
+    showVal =(e)=>{
+      // value 1
+      if( this.counter === 0){
+        this.a+=e.target.getAttribute("data-id")
+        calcHead.innerHTML= this.a;
+       } 
+      //  value 2
+       else if ( this.counter === 1){
+        this.b+=e.target.getAttribute("data-id")
+        calcHead.innerHTML= this.b;
+       }
+    }
+    reset=()=>{
+        calcHead.innerHTML="";
+         this.counter = 1;
     }
     multiply(){
-        return this.a*this.b
+        
     }
     divide(){
-        return this.a/this.b;
+      let mainEv = ()=>{
+        this.reset();
+        let func = ()=>{
+         calcHead.innerHTML="";
+         this.total = Number(this.a)/Number(this.b);
+         calcHead.innerHTML= this.total;
+         console.log(this.total)
+         console.log(this.a)
+         console.log(this.b)
+         this.a = this.total.toString();
+         this.b = "";
+         calcHead.innerHTML = this.a;
+         divide.removeEventListener("click", mainEv)
+        }
+        equals.addEventListener("click", func)
       }
-      add(){
-        return this.a+this.b 
+       divide.addEventListener("click", mainEv)
+       
+      }
+      add=()=>{
+        let mainEv = ()=>{
+          this.reset();
+          let func = ()=>{
+           calcHead.innerHTML="";
+           this.total = Number(this.a)+Number(this.b);
+           calcHead.innerHTML= this.total;
+           this.a = this.total.toString();
+           this.b = "";
+           calcHead.innerHTML = this.a;
+           plus.removeEventListener("click", mainEv)
+          }
+          equals.addEventListener("click", func)
+        }
+         plus.addEventListener("click", mainEv)
+         
+         
       }
       subtract(){
         return this.a-this.b;
      }
-}
-
-let m = [];
-let c = [];
-let a = "";
-let b = [];
-let counter = 0;
-const showFirstVal = (e)=>{
-  let mainVal = ()=>{
-      c.push(e.target.getAttribute("data-id"))
-      calcHead.innerHTML= c.join("");
-      a = c.join("")
-  }
- mainVal();
+     clear(){
+        clear.addEventListener("click", ()=>{
+          calcHead.innerHTML= "";
+          this.counter=0;
+          this.total=0;
+          this.a="";
+          this.b="";
+        })
+     }
 }
 
 
-let secondVal =(e)=>{
-  calcHead.innerHTML=""
-  c.length =0;
-   b.shift()
-  b.push(a)
-}
-
- plus.addEventListener("click", (e)=>{
-   secondVal(e);
-   
- })
-
-// const equalEd = ()=>{
-
-// }
-
-const numbs = ()=>{
-for (let i =0; i < numbers.children.length; i++){
-    numbers.children[i].setAttribute("data-id", i)
-     numbers.children[i].addEventListener("click", showFirstVal)
-}
-}
-
-numbs();
 
 
-// const createBody = ()=>{
-//     obj.forEach((item, index)=>{
-//         let newbtn = document.createElement("div")
-//     
-//         newbtn.innerText = index;
-//         newbtn.classList.add("icons")
-//         calcBody.appendChild(newbtn)
-//         newbtn.addEventListener("click", addNum)
-//     })
-// }
+let c = new Calculator()
+c.loop();
 
-
-// let first= [];
-// let a ;
-// let b; 
-// let counter = 1;
-
-// const addNum= (e)=>{
-//     let firstVal = ()=>{
-//         if (counter > 0 && counter % 2 !== 0){
-//             first.push ( e.target.getAttribute("data-id"));
-//             a = first.join("");
-//              calcHead.innerHTML = a;
-//             return a;
-//         } 
-//         }
-//         if (counter > 0 && counter % 2 === 0){
-//             first.push(e.target.getAttribute("data-id"))
-//             b = first.join("");
-//             calcHead.innerHTML = b;
-//             return b;
-//         }       
-//     firstVal();     
-// }
-
-
-// let equal = (a,b)=>{
-//     console.log(g)
-//     equals.addEventListener("click",()=>{
-//      let m = new Calculator(Numa,Numb)
-//      calcHead.innerHTML =m.add();
-//     })
-    
-// }
-// let c =   ()=>{
-//     plus.addEventListener("click", ()=>{
-//         first.length = 0;
-//         counter++
-//      })
-// }
-
-// c();
-// equal();
-// createBody();
