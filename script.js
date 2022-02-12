@@ -47,7 +47,7 @@ class Calculator {
       calcHead.innerHTML= this.b;
       this.check()
     }
-    // counter to show which value to get, val 1 or val 2 
+    // counter to show which value to get, val 1 or val 2 && also this event is from the btnsFunc && initializes this.ev. 
     reset=(e)=>{
       this.ev = e.target.getAttribute("id");
       calcHead.innerHTML="";
