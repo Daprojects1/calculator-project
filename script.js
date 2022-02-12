@@ -7,92 +7,88 @@ let clear = document.querySelector(".clear")
 let numbers = document.querySelector(".otherBody")
 let divide = document.querySelector("#divide")
 let multiply = document.querySelector("#multiply")
+let subtract = document.querySelector("#subtract")
 
+console.log(multiply.getAttribute("id"));
 class Calculator {
     constructor(){
         this.a = "";
         this.b = "";
         this.counter=0;
         this.total=0;
-    }
+        this.ev;
+        this.functionBtns = [multiply, divide, subtract, plus];
+    };
     loop=()=>{
       for (let i =0; i < numbers.children.length; i++){
         numbers.children[i].setAttribute("data-id", i)
-         numbers.children[i].addEventListener("click", this.showVal);
+         numbers.children[i].addEventListener("click", this.getVals);
           }
-          this.add();
-          this.divide();
-          this.multiply();
-          this.clear();
+          this.btnsFunc();
+          clear.addEventListener("click", this.clear)
     }
-    showVal =(e)=>{
+    btnsFunc=()=>{
+      this.functionBtns.map((item)=>{
+          return item.addEventListener("click", this.reset)
+      })
+    }
+    getVals =(e)=>{
       // value 1
-      if( this.counter === 0){
-        this.a+=e.target.getAttribute("data-id")
-        calcHead.innerHTML= this.a;
-       } 
-      //  value 2
-       else if ( this.counter === 1){
-        this.b+=e.target.getAttribute("data-id")
-        calcHead.innerHTML= this.b;
+      if(this.counter === 0){
+         this.grabA(e);
+       }else if (this.counter === 1){
+       this.grabB(e)
        }
     }
-    reset=()=>{
-        calcHead.innerHTML="";
-         this.counter = 1;
+    grabA=(e)=>{
+      this.a+=e.target.getAttribute("data-id")
+      calcHead.innerHTML= this.a;
     }
-    multiply(){
-        
+    grabB=(e)=>{
+      this.b+=e.target.getAttribute("data-id")
+      calcHead.innerHTML= this.b;
+      this.check()
     }
-    divide(){
-      let mainEv = ()=>{
-        this.reset();
-        let func = ()=>{
-         calcHead.innerHTML="";
-         this.total = Number(this.a)/Number(this.b);
-         calcHead.innerHTML= this.total;
-         console.log(this.total)
-         console.log(this.a)
-         console.log(this.b)
-         this.a = this.total.toString();
-         this.b = "";
-         calcHead.innerHTML = this.a;
-         divide.removeEventListener("click", mainEv)
+    reset=(e)=>{
+      this.ev = e.target.getAttribute("id");
+      calcHead.innerHTML="";
+      this.counter = 1;
+    }
+    subtract=()=>{
+      this.total = Number(this.a)-Number(this.b)
+   }
+    multiply=()=>{
+      this.total = Number(this.a)*Number(this.b);
+    }
+    divide=()=>{
+      this.total = Number(this.a)/Number(this.b);
+      }
+    add=()=>{
+      this.total = Number(this.a)+Number(this.b);
+    }
+      check=()=>{
+        equals.addEventListener("click", this.equals)
+      }
+      equals=()=>{
+        if (this.ev === "add"){
+          this.add();
+        } else if ( this.ev === "divide"){
+          this.divide();
+        } else if (this.ev === "multiply"){
+          this.multiply();
+        } else if (this.ev === "subtract"){
+          this.subtract();
         }
-        equals.addEventListener("click", func)
+        calcHead.innerHTML= this.total;
+        this.a = this.total;
+        this.b = "";
       }
-       divide.addEventListener("click", mainEv)
-       
-      }
-      add=()=>{
-        let mainEv = ()=>{
-          this.reset();
-          let func = ()=>{
-           calcHead.innerHTML="";
-           this.total = Number(this.a)+Number(this.b);
-           calcHead.innerHTML= this.total;
-           this.a = this.total.toString();
-           this.b = "";
-           calcHead.innerHTML = this.a;
-           plus.removeEventListener("click", mainEv)
-          }
-          equals.addEventListener("click", func)
-        }
-         plus.addEventListener("click", mainEv)
-         
-         
-      }
-      subtract(){
-        return this.a-this.b;
-     }
-     clear(){
-        clear.addEventListener("click", ()=>{
+     clear=()=>{
           calcHead.innerHTML= "";
           this.counter=0;
           this.total=0;
           this.a="";
           this.b="";
-        })
      }
 }
 
