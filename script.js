@@ -1,6 +1,4 @@
-let calcBody = document.querySelector(".calc-body")
 let calcHead = document.querySelector(".calc-head")
-let mainbts = document.querySelector(".mainbtns")
 let plus = document.querySelector("#add")
 let equals = document.querySelector(".equals")
 let clear = document.querySelector(".clear")
@@ -9,7 +7,6 @@ let divide = document.querySelector("#divide")
 let multiply = document.querySelector("#multiply")
 let subtract = document.querySelector("#subtract")
 
-console.log(multiply.getAttribute("id"));
 class Calculator {
     constructor(){
         this.a = "";
@@ -26,29 +23,31 @@ class Calculator {
           }
           this.btnsFunc();
           clear.addEventListener("click", this.clear)
-    }
+    };
     btnsFunc=()=>{
       this.functionBtns.map((item)=>{
           return item.addEventListener("click", this.reset)
       })
-    }
+    };
     getVals =(e)=>{
-      // value 1
       if(this.counter === 0){
          this.grabA(e);
        }else if (this.counter === 1){
-       this.grabB(e)
+       this.grabB(e);
        }
-    }
+    };
+    // val 1
     grabA=(e)=>{
       this.a+=e.target.getAttribute("data-id")
       calcHead.innerHTML= this.a;
     }
+    // val 2
     grabB=(e)=>{
       this.b+=e.target.getAttribute("data-id")
       calcHead.innerHTML= this.b;
       this.check()
     }
+    // counter to show which value to get, val 1 or val 2 
     reset=(e)=>{
       this.ev = e.target.getAttribute("id");
       calcHead.innerHTML="";
@@ -92,9 +91,6 @@ class Calculator {
      }
 }
 
-
-
-
-let c = new Calculator()
-c.loop();
+let calc = new Calculator()
+calc.loop();
 
